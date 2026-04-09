@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AppText } from "@/components/ui/Text";
 import { useTheme } from "@/hooks/useTheme";
 import { HomeScreen } from "@/screens/HomeScreen";
 import { ProductDetailsScreen } from "@/screens/ProductDetailsScreen";
@@ -40,6 +39,7 @@ export const AppNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
+        animation: "fade",
         headerShown: false,
         sceneStyle: {
           backgroundColor: theme.background,
@@ -57,6 +57,7 @@ export const AppNavigator = () => {
           borderTopColor: theme.border,
           height: 68,
           paddingTop: 6,
+          paddingBottom: 10,
         },
       }}
     >
@@ -65,11 +66,6 @@ export const AppNavigator = () => {
         name="HomeTab"
         options={{
           tabBarLabel: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <AppText variant="bodyBold" color={focused ? color : theme.secondaryText}>
-              H
-            </AppText>
-          ),
         }}
       />
       <Tab.Screen
@@ -77,11 +73,6 @@ export const AppNavigator = () => {
         name="ProductsTab"
         options={{
           tabBarLabel: "Products",
-          tabBarIcon: ({ color, focused }) => (
-            <AppText variant="bodyBold" color={focused ? color : theme.secondaryText}>
-              P
-            </AppText>
-          ),
         }}
       />
       <Tab.Screen
@@ -89,11 +80,6 @@ export const AppNavigator = () => {
         name="ProfileTab"
         options={{
           tabBarLabel: "Profile",
-          tabBarIcon: ({ color, focused }) => (
-            <AppText variant="bodyBold" color={focused ? color : theme.secondaryText}>
-              U
-            </AppText>
-          ),
         }}
       />
     </Tab.Navigator>

@@ -3,8 +3,10 @@ import {
   ActivityIndicator,
   Pressable,
   PressableProps,
+  StyleProp,
   StyleSheet,
   View,
+  ViewStyle,
 } from "react-native";
 import { useTheme } from "@/hooks/useTheme";
 import { AppText } from "@/components/ui/Text";
@@ -12,10 +14,11 @@ import { AppText } from "@/components/ui/Text";
 type ButtonVariant = "ghost" | "primary" | "secondary";
 type ButtonSize = "md" | "sm";
 
-type AppButtonProps = PressableProps & {
+type AppButtonProps = Omit<PressableProps, "style"> & {
   label: string;
   loading?: boolean;
   size?: ButtonSize;
+  style?: StyleProp<ViewStyle>;
   variant?: ButtonVariant;
 };
 

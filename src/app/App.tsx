@@ -2,13 +2,13 @@ import { useTheme } from "@/hooks/useTheme";
 import { AppNavigator } from "@/navigation/AppNavigator";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import React from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
         <ThemeProvider>
           <AppContent />
@@ -28,5 +28,11 @@ function AppContent() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
+});
 
 export default App;
