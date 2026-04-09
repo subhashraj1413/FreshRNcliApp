@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { AppIcon } from "@/components/ui/Icon";
 import { useTheme } from "@/hooks/useTheme";
 import { HomeScreen } from "@/screens/HomeScreen";
 import { ProductDetailsScreen } from "@/screens/ProductDetailsScreen";
@@ -32,6 +33,40 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 const ProductsStack = createNativeStackNavigator<ProductsStackParamList>();
 const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
+
+const HomeTabIcon = ({ color, focused }: { color: string; focused: boolean }) => {
+  return (
+    <AppIcon color={color} name={focused ? "home" : "home-outline"} size={22} />
+  );
+};
+
+const ProductsTabIcon = ({
+  color,
+  focused,
+}: {
+  color: string;
+  focused: boolean;
+}) => {
+  return (
+    <AppIcon color={color} name={focused ? "bag" : "bag-outline"} size={22} />
+  );
+};
+
+const ProfileTabIcon = ({
+  color,
+  focused,
+}: {
+  color: string;
+  focused: boolean;
+}) => {
+  return (
+    <AppIcon
+      color={color}
+      name={focused ? "person-circle" : "person-circle-outline"}
+      size={22}
+    />
+  );
+};
 
 export const AppNavigator = () => {
   const { theme } = useTheme();
@@ -66,6 +101,7 @@ export const AppNavigator = () => {
         name="HomeTab"
         options={{
           tabBarLabel: "Home",
+          tabBarIcon: HomeTabIcon,
         }}
       />
       <Tab.Screen
@@ -73,6 +109,7 @@ export const AppNavigator = () => {
         name="ProductsTab"
         options={{
           tabBarLabel: "Products",
+          tabBarIcon: ProductsTabIcon,
         }}
       />
       <Tab.Screen
@@ -80,6 +117,7 @@ export const AppNavigator = () => {
         name="ProfileTab"
         options={{
           tabBarLabel: "Profile",
+          tabBarIcon: ProfileTabIcon,
         }}
       />
     </Tab.Navigator>
@@ -94,25 +132,35 @@ const HomeStackNavigator = () => {
       <HomeStack.Screen name="Home" options={{ title: "Home" }}>
         {({ navigation }) => (
           <HomeScreen
-            onOpenProductsTab={() => navigation.getParent()?.navigate("ProductsTab")}
+            onOpenProductsTab={() =>
+              navigation.getParent()?.navigate("ProductsTab")
+            }
             onOpenStackProducts={() => navigation.navigate("HomeProducts")}
           />
         )}
       </HomeStack.Screen>
-      <HomeStack.Screen name="HomeProducts" options={{ title: "Featured products" }}>
+      <HomeStack.Screen
+        name="HomeProducts"
+        options={{ title: "Featured products" }}
+      >
         {({ navigation }) => (
           <ProductsScreen
             description="This products list is pushed from the Home tab stack."
             heading="Featured products"
             kicker="Home"
-            onSelectProduct={productId =>
+            onSelectProduct={(productId) =>
               navigation.navigate("HomeProductDetail", { productId })
             }
           />
         )}
       </HomeStack.Screen>
-      <HomeStack.Screen name="HomeProductDetail" options={{ title: "Product details" }}>
-        {({ route }) => <ProductDetailsScreen productId={route.params.productId} />}
+      <HomeStack.Screen
+        name="HomeProductDetail"
+        options={{ title: "Product details" }}
+      >
+        {({ route }) => (
+          <ProductDetailsScreen productId={route.params.productId} />
+        )}
       </HomeStack.Screen>
     </HomeStack.Navigator>
   );
@@ -129,14 +177,19 @@ const ProductsStackNavigator = () => {
             description="Example catalog screen with a list-to-detail stack flow."
             heading="Products list"
             kicker="Products"
-            onSelectProduct={productId =>
+            onSelectProduct={(productId) =>
               navigation.navigate("ProductDetail", { productId })
             }
           />
         )}
       </ProductsStack.Screen>
-      <ProductsStack.Screen name="ProductDetail" options={{ title: "Product details" }}>
-        {({ route }) => <ProductDetailsScreen productId={route.params.productId} />}
+      <ProductsStack.Screen
+        name="ProductDetail"
+        options={{ title: "Product details" }}
+      >
+        {({ route }) => (
+          <ProductDetailsScreen productId={route.params.productId} />
+        )}
       </ProductsStack.Screen>
     </ProductsStack.Navigator>
   );
@@ -154,7 +207,9 @@ const ProfileStackNavigator = () => {
   );
 };
 
-const getStackScreenOptions = (theme: ReturnType<typeof useTheme>["theme"]) => ({
+const getStackScreenOptions = (
+  theme: ReturnType<typeof useTheme>["theme"],
+) => ({
   contentStyle: {
     backgroundColor: theme.background,
   },
