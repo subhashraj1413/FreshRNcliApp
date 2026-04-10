@@ -70,32 +70,34 @@ const ProfileTabIcon = ({
 
 export const AppNavigator = () => {
   const { theme } = useTheme();
+  const tabScreenOptions = React.useMemo(
+    () => ({
+      animation: "fade" as const,
+      headerShown: false,
+      sceneStyle: {
+        backgroundColor: theme.background,
+      },
+      tabBarActiveTintColor: theme.accent,
+      tabBarInactiveTintColor: theme.secondaryText,
+      tabBarLabelStyle: {
+        fontSize: 12,
+        fontWeight: "600" as const,
+        marginBottom: 6,
+        marginTop: 4,
+      },
+      tabBarStyle: {
+        backgroundColor: theme.tabBar,
+        borderTopColor: theme.border,
+        height: 68,
+        paddingBottom: 10,
+        paddingTop: 6,
+      },
+    }),
+    [theme],
+  );
 
   return (
-    <Tab.Navigator
-      screenOptions={{
-        animation: "fade",
-        headerShown: false,
-        sceneStyle: {
-          backgroundColor: theme.background,
-        },
-        tabBarActiveTintColor: theme.accent,
-        tabBarInactiveTintColor: theme.secondaryText,
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "600",
-          marginBottom: 6,
-          marginTop: 4,
-        },
-        tabBarStyle: {
-          backgroundColor: theme.tabBar,
-          borderTopColor: theme.border,
-          height: 68,
-          paddingTop: 6,
-          paddingBottom: 10,
-        },
-      }}
-    >
+    <Tab.Navigator screenOptions={tabScreenOptions}>
       <Tab.Screen
         component={HomeStackNavigator}
         name="HomeTab"
@@ -126,9 +128,10 @@ export const AppNavigator = () => {
 
 const HomeStackNavigator = () => {
   const { theme } = useTheme();
+  const screenOptions = React.useMemo(() => getStackScreenOptions(theme), [theme]);
 
   return (
-    <HomeStack.Navigator screenOptions={getStackScreenOptions(theme)}>
+    <HomeStack.Navigator screenOptions={screenOptions}>
       <HomeStack.Screen name="Home" options={{ title: "Home" }}>
         {({ navigation }) => (
           <HomeScreen
@@ -168,9 +171,10 @@ const HomeStackNavigator = () => {
 
 const ProductsStackNavigator = () => {
   const { theme } = useTheme();
+  const screenOptions = React.useMemo(() => getStackScreenOptions(theme), [theme]);
 
   return (
-    <ProductsStack.Navigator screenOptions={getStackScreenOptions(theme)}>
+    <ProductsStack.Navigator screenOptions={screenOptions}>
       <ProductsStack.Screen name="Products" options={{ title: "Products" }}>
         {({ navigation }) => (
           <ProductsScreen
@@ -197,9 +201,10 @@ const ProductsStackNavigator = () => {
 
 const ProfileStackNavigator = () => {
   const { theme, toggleTheme } = useTheme();
+  const screenOptions = React.useMemo(() => getStackScreenOptions(theme), [theme]);
 
   return (
-    <ProfileStack.Navigator screenOptions={getStackScreenOptions(theme)}>
+    <ProfileStack.Navigator screenOptions={screenOptions}>
       <ProfileStack.Screen name="Profile" options={{ title: "Profile" }}>
         {() => <ProfileScreen onToggleTheme={toggleTheme} />}
       </ProfileStack.Screen>
